@@ -1,0 +1,30 @@
+<!DOCTYPE html5>
+<html lang= "en_US">
+    <head>
+    <title>String Manipulation</title>
+    <meta charset "utf-8"></meta>
+    <script defer src="stringManip.js"></script>
+    </head>
+    <body>
+        <div id="mainDiv">
+            <h1>Please enter some strings that you would like to be manipulated.</h1>
+            <h3>
+                <h4>How would you like your strings to be changed?</h4>
+
+                <input type="checkbox" id="flipOption" name="manipMethod">
+                <label for="flipOption">Reverse the order of string</label><br>
+
+                <input type="checkbox" id="capOption" name="manipMethod">
+                <label for="capOption">Capitalize all letters</label><br>
+
+                <input type="checkbox" id="pigOption" name="manipMethod">
+                <label for="flipOption">Convert to pig latin</label><br>
+                <br />
+                <label for='myString'>First String:</label>
+                <input id="myString" name="myString" type="text"/>
+                <br />
+            </h3>
+            <input type="button" onclick="myClick()" value="Submit">
+        </div>
+    </body>
+</html>
