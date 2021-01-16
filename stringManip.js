@@ -9,20 +9,19 @@ function myClick() {
       localStorage.setItem("pigOption", document.getElementById("pigOption").checked);
       localStorage.setItem("len", localStorage.getItem("myString").length);
       localStorage.setItem("lastLetPos", localStorage.getItem("len") - 1);
-      localStorage.setItem("myString", document.getElementById("myString").value);
-      localStorage.setItem("lastLetter", "");
-      localStorage.setItem("newString", "");
+      localStorage.setItem("newString", localStorage.getItem("myString").split());
+      localStorage.setItem("lastLetter", localStorage.getItem("newString")[localStorage.getItem("lastLetPos")]);
     }
-    var capOption = document.getElementById("capOption").checked;
-    var flipOption = document.getElementById("flipOption").checked;
-    var pigOption = document.getElementById("pigOption").checked;
-    var len = myString.length;
-    var lastLetPos = len - 1;
-    var lastLetter = ""
-    var newString = "";
 
     myJSON = {
-
+        "myString": localStorage.getItem("myString"),
+        "capOption": localStorage.getItem("capOption"),
+        "flipOption": localStorage.getItem("flipOption"),
+        "pigOption": localStorage.getItem("pigOption"),
+        "len": localStorage.getItem("len"),
+        "lastLetPos": localStorage.getItem("lastLetPos"),
+        "lastLetter": localStorage.getItem("lastLetter"),
+        "newString": localStorage.getItem("newString"),
 
     }
 
@@ -31,25 +30,30 @@ function myClick() {
     // displays this as a defualt message on the html page
     mainDiv.innerHTML = "\n<h1>Your manipulated text: </h1>\n";
 
+    console.log(myJSON["flipOption"]);
+    console.log(myJSON["capOption"]);
+    console.log(myJSON["pigOption"]);
+
     // if the user selected the option where they wanted string to be reversed,
-    if (flipOption) {
+    if (myJSON['flipOption'] == 'true') {
 
         // makes the string mutable
-        myString = myString.split('');
+        myJSON["myString"] =  myJSON['myString'].split('');
 
+        myJSON["newString"] = "";
         // loop begins with the last letter of the myString and it replaces each
         // letter backwards until there is no more letters
-        for (var i = myString.length - 1; i >= 0; i--) {
+        for (var i = myJSON['lastLetPos']; i >= 0; i--) {
             // adds each character in accordance with the for loop
-            newString += myString[i];
+            myJSON["newString"] += myJSON['myString'][i];
         }
 
     }
 
     // otherwise, if the user selected the option to capitalize all letters,
-    else if (capOption) {
+    else if (myJSON["capOption"] == 'true') {
         // capitalizes the string
-        newString = myString.toUpperCase();
+        myJSON["newString"] = myJSON["myString"].toUpperCase();
 
     }
 
@@ -58,19 +62,19 @@ function myClick() {
     else {
 
         // makes the string mutable
-        newString = myString.split('');
+        myJSON["newString"] = myJSON["myString"].split('');
         // finds the last letter of the string
-        lastLetter = newString[lastLetPos];
+        lastLetter = myJSON["newString"][myJSON["lastLetPos"]];
         // deletes the last letter
-        myString = myString.replace(lastLetter, '');
+        myJSON["myString"] = myJSON["myString"].replace(myJSON["lastLetter"], '');
         // creates the string in pig latin by putting the last letter in front,
         // then the string then 'way' at the end
-        newString = lastLetter + myString + "way";
+        myJSON["newString"] = myJSON["lastLetter"] + myJSON["myString"] + "way";
 
 
     }
 
     // displays the manipulated string on the website
-    mainDiv.innerHTML += newString;
+    mainDiv.innerHTML += myJSON["newString"];
 
 }
