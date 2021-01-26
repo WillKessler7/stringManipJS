@@ -1,8 +1,24 @@
 mainDiv = document.getElementById("mainDiv");
 
 
+// the following if statement must be placed here because
+
+// if the user has inputed a value for their string to be manipulated,
+if (localStorage.getItem("newString") != "undefined") {
+
+    // print to the webpage that this was their previous result
+    mainDiv.innerHTML += "\n<h3>Your previous result:</h3>\n";
+    // add the string they previously inputed
+    mainDiv.innerHTML += localStorage.getItem("newString");
+
+}
+
+
 function myClick() {
+
+    // if storage is available in the browser the user is using,
     if (typeof(Storage) !== "undefined") {
+      // send all of the items to local storage
       localStorage.setItem("myString", document.getElementById("myString").value);
       localStorage.setItem("capOption", document.getElementById("capOption").checked);
       localStorage.setItem("flipOption", document.getElementById("flipOption").checked);
@@ -29,10 +45,6 @@ function myClick() {
 
     // displays this as a defualt message on the html page
     mainDiv.innerHTML = "\n<h1>Your manipulated text: </h1>\n";
-
-    console.log(myJSON["flipOption"]);
-    console.log(myJSON["capOption"]);
-    console.log(myJSON["pigOption"]);
 
     // if the user selected the option where they wanted string to be reversed,
     if (myJSON['flipOption'] == 'true') {
@@ -73,8 +85,10 @@ function myClick() {
 
 
     }
-
+    // defines the string that will be used to display the previous results
+    localStorage.setItem("newString", myJSON["newString"])
     // displays the manipulated string on the website
     mainDiv.innerHTML += myJSON["newString"];
+
 
 }
