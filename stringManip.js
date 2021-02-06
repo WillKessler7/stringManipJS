@@ -1,20 +1,43 @@
 mainDiv = document.getElementById("mainDiv");
+// variable that holds all of the previous entries
+var allData = [];
 
+var stringifiedJSON = JSON.stringify(localStorage.getItem("formData"));
+var parsedNewString = JSON.parse(localStorage.getItem("formData"));
 
 // the following if statement must be placed here because
-
 // if the user has inputed a value for their string to be manipulated,
 if (localStorage.getItem("newString") != "undefined") {
 
+
     // print to the webpage that this was their previous result
-    mainDiv.innerHTML += "\n<h3>Your previous result:</h3>\n";
-    // add the string they previously inputed
-    mainDiv.innerHTML += localStorage.getItem("newString");
+    mainDiv.innerHTML += "\n<h3>Your previous results:</h3>\n";
+
+    // because the string from last iteration of the program has already been
+    // utilized, I need
+    localStorage.setItem("previousString", localStorage.getItem("newString"));
+
+    // for previous entry in the list of all of the previous entries
+    for (newString in JSON.parse(localStorage.getItem("allData"))) {
+        // add to tags for white space
+        mainDiv.innerHTML += "<h6></h6>";
+        // add the previous string to the website
+        mainDiv.innerHTML += JSON.parse(localStorage.getItem("allData"))[newString];
+    }
 
 }
 
 
+
 function myClick() {
+    /*
+    Purpose: To save all of my local variables to local storage, and to
+    manipulate the inputed string in the requested manner
+    Parameters: None
+    Returns: None(displays the new string to the website and also saves a lot
+    of variables to local storage that will later be passed to the beginning of
+    the program outside of the function)
+    */
 
     // if storage is available in the browser the user is using,
     if (typeof(Storage) !== "undefined") {
@@ -29,6 +52,7 @@ function myClick() {
       localStorage.setItem("lastLetter", localStorage.getItem("newString")[localStorage.getItem("lastLetPos")]);
     }
 
+
     myJSON = {
         "myString": localStorage.getItem("myString"),
         "capOption": localStorage.getItem("capOption"),
@@ -41,7 +65,6 @@ function myClick() {
 
     }
 
-    localStorage.setItem("formData", myJSON);
 
     // displays this as a defualt message on the html page
     mainDiv.innerHTML = "\n<h1>Your manipulated text: </h1>\n";
@@ -62,12 +85,18 @@ function myClick() {
 
     }
 
+
+
+
     // otherwise, if the user selected the option to capitalize all letters,
     else if (myJSON["capOption"] == 'true') {
         // capitalizes the string
         myJSON["newString"] = myJSON["myString"].toUpperCase();
 
     }
+
+
+
 
     // otherwise, because the user didn't select the first two, they must of
     // selected the last option(the pig latin option)
@@ -85,10 +114,21 @@ function myClick() {
 
 
     }
-    // defines the string that will be used to display the previous results
-    localStorage.setItem("newString", myJSON["newString"])
+
+
     // displays the manipulated string on the website
     mainDiv.innerHTML += myJSON["newString"];
+    // defines the string that will be used to display the previous results
+    localStorage.setItem("newString", myJSON["newString"])
+    // parses the list full of previous strings
+    allData = JSON.parse(localStorage.getItem("allData"));
+    // adds the newest entry to that list because it was already added
+    allData.push(myJSON["newString"]);
+    // add it to local storage
+    localStorage.setItem("allData", JSON.stringify(allData));
+
+
+    localStorage.setItem("formData", JSON.stringify(myJSON));
 
 
 }
